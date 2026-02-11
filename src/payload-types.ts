@@ -147,7 +147,7 @@ export interface Category {
   slug: string;
   description?: string | null;
   /**
-   * Kategori badge rengi (örn: #2563eb)
+   * Kategori badge rengi (örn: #0E4D3D)
    */
   color?: string | null;
   /**
