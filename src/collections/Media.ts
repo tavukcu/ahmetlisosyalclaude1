@@ -6,6 +6,9 @@ export const Media: CollectionConfig = {
     singular: 'Medya',
     plural: 'Medya',
   },
+  admin: {
+    group: 'Reklam & Medya',
+  },
   upload: {
     staticDir: '../public/media',
     imageSizes: [

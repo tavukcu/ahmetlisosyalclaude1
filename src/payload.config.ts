@@ -1,7 +1,23 @@
 import path from 'path'
 import { fileURLToPath } from 'url'
 import { buildConfig } from 'payload'
-import { lexicalEditor } from '@payloadcms/richtext-lexical'
+import {
+  lexicalEditor,
+  HeadingFeature,
+  BlockquoteFeature,
+  LinkFeature,
+  UploadFeature,
+  OrderedListFeature,
+  UnorderedListFeature,
+  BoldFeature,
+  ItalicFeature,
+  UnderlineFeature,
+  StrikethroughFeature,
+  AlignFeature,
+  IndentFeature,
+  InlineCodeFeature,
+  HorizontalRuleFeature,
+} from '@payloadcms/richtext-lexical'
 import { vercelPostgresAdapter } from '@payloadcms/db-vercel-postgres'
 import sharp from 'sharp'
 
@@ -22,11 +38,44 @@ export default buildConfig({
     user: Users.slug,
     meta: {
       titleSuffix: ' — Ahmetli Sosyal',
+      description: 'Ahmetli Sosyal Haber Portalı Yönetim Paneli',
     },
+    dateFormat: 'dd MMM yyyy HH:mm',
   },
-  collections: [Users, Media, Categories, News, Ads, Polls],
+  collections: [News, Categories, Polls, Media, Ads, Users],
   globals: [Settings],
-  editor: lexicalEditor({}),
+  editor: lexicalEditor({
+    features: () => [
+      HeadingFeature({ enabledHeadingSizes: ['h2', 'h3', 'h4'] }),
+      BoldFeature(),
+      ItalicFeature(),
+      UnderlineFeature(),
+      StrikethroughFeature(),
+      AlignFeature(),
+      IndentFeature(),
+      UnorderedListFeature(),
+      OrderedListFeature(),
+      LinkFeature({
+        enabledCollections: ['news', 'categories'],
+      }),
+      BlockquoteFeature(),
+      InlineCodeFeature(),
+      HorizontalRuleFeature(),
+      UploadFeature({
+        collections: {
+          media: {
+            fields: [
+              {
+                name: 'caption',
+                type: 'text',
+                label: 'Görsel Açıklaması',
+              },
+            ],
+          },
+        },
+      }),
+    ],
+  }),
   secret: process.env.PAYLOAD_SECRET!,
   typescript: {
     outputFile: path.resolve(dirname, 'payload-types.ts'),

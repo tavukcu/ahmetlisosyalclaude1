@@ -9,6 +9,7 @@ export const Categories: CollectionConfig = {
   admin: {
     useAsTitle: 'name',
     defaultColumns: ['name', 'slug', 'order'],
+    group: 'İçerik Yönetimi',
   },
   access: {
     read: () => true,

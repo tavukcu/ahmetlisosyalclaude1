@@ -9,6 +9,7 @@ export const Users: CollectionConfig = {
   admin: {
     useAsTitle: 'email',
     defaultColumns: ['email', 'role', 'createdAt'],
+    group: 'Sistem',
   },
   auth: true,
   access: {

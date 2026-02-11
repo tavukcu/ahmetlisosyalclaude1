@@ -9,6 +9,7 @@ export const Polls: CollectionConfig = {
   admin: {
     useAsTitle: 'question',
     defaultColumns: ['question', 'active', 'totalVotes', 'endDate'],
+    group: 'İçerik Yönetimi',
   },
   access: {
     read: () => true,

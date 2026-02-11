@@ -9,6 +9,7 @@ export const Ads: CollectionConfig = {
   admin: {
     useAsTitle: 'name',
     defaultColumns: ['name', 'position', 'active', 'startDate', 'endDate', 'clicks'],
+    group: 'Reklam & Medya',
   },
   access: {
     read: () => true,
