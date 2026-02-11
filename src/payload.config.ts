@@ -2,6 +2,7 @@ import path from 'path'
 import { fileURLToPath } from 'url'
 import { buildConfig } from 'payload'
 import { lexicalEditor } from '@payloadcms/richtext-lexical'
+import { vercelPostgresAdapter } from '@payloadcms/db-vercel-postgres'
 import sharp from 'sharp'
 
 import { Users } from './collections/Users'
@@ -14,27 +15,6 @@ import { Settings } from './globals/Settings'
 
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
-
-const isVercel = !!process.env.POSTGRES_URL
-
-const dbAdapter = isVercel
-  ? (await import('@payloadcms/db-vercel-postgres')).vercelPostgresAdapter({
-      pool: { connectionString: process.env.POSTGRES_URL },
-    })
-  : (await import('@payloadcms/db-sqlite')).sqliteAdapter({
-      client: { url: process.env.DATABASE_URI || 'file:./database.db' },
-    })
-
-const plugins: any[] = []
-if (isVercel && process.env.BLOB_READ_WRITE_TOKEN) {
-  const { vercelBlobStorage } = await import('@payloadcms/storage-vercel-blob')
-  plugins.push(
-    vercelBlobStorage({
-      collections: { media: true },
-      token: process.env.BLOB_READ_WRITE_TOKEN,
-    }),
-  )
-}
 
 export default buildConfig({
   admin: {
@@ -51,7 +31,10 @@ export default buildConfig({
   typescript: {
     outputFile: path.resolve(dirname, 'payload-types.ts'),
   },
-  db: dbAdapter,
+  db: vercelPostgresAdapter({
+    pool: {
+      connectionString: process.env.POSTGRES_URL || process.env.DATABASE_URL || '',
+    },
+  }),
   sharp,
-  plugins,
 })
