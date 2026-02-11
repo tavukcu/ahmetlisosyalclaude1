@@ -24,6 +24,7 @@ const getDbAdapter = () => {
       pool: {
         connectionString: process.env.POSTGRES_URL,
       },
+      push: true,
     })
   }
   const { sqliteAdapter } = require('@payloadcms/db-sqlite')
