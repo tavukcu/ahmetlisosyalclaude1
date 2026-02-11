@@ -81,8 +81,7 @@ export default async function WeatherPage() {
             ) : (
               <div className="text-center py-8 text-gray-400">
                 <div className="text-4xl mb-2">🌤️</div>
-                <p>Tahmin verisi için OpenWeatherMap API anahtarı gereklidir.</p>
-                <p className="text-xs mt-1">Admin panelinden API anahtarınızı ekleyin.</p>
+                <p>Tahmin verisi yüklenemedi. Lütfen daha sonra tekrar deneyin.</p>
               </div>
             )}
           </div>
@@ -170,18 +169,11 @@ export default async function WeatherPage() {
           </div>
 
           {!weather && (
-            <div className="bg-blue-50 border border-blue-200 rounded-xl p-6">
-              <h3 className="font-semibold text-blue-800 mb-2">API Kurulumu</h3>
-              <p className="text-sm text-blue-700">
-                Gerçek hava durumu verisi için{' '}
-                <a href="https://openweathermap.org/api" className="underline" target="_blank" rel="noopener">
-                  OpenWeatherMap
-                </a>
-                {' '}üzerinden ücretsiz bir API anahtarı alıp .env dosyasına ekleyin.
+            <div className="bg-red-50 border border-red-200 rounded-xl p-6">
+              <h3 className="font-semibold text-red-800 mb-2">Bağlantı Sorunu</h3>
+              <p className="text-sm text-red-700">
+                Hava durumu verisi şu an alınamıyor. Lütfen daha sonra tekrar deneyin.
               </p>
-              <code className="block mt-2 text-xs bg-blue-100 p-2 rounded">
-                OPENWEATHERMAP_API_KEY=your_key_here
-              </code>
             </div>
           )}
         </div>

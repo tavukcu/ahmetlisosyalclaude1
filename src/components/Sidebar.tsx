@@ -3,6 +3,7 @@ import CurrencyWidget from './CurrencyWidget'
 import PollWidget from './PollWidget'
 import AdBannerServer from './AdBannerServer'
 import { getPayload } from '@/lib/payload'
+import { getForecast } from '@/lib/weather'
 
 interface SidebarProps {
   weatherTemp?: number | null
@@ -26,7 +27,10 @@ async function getActivePoll() {
 }
 
 export default async function Sidebar({ weatherTemp, weatherDescription, weatherIcon }: SidebarProps) {
-  const activePoll = await getActivePoll()
+  const [activePoll, forecast] = await Promise.all([
+    getActivePoll(),
+    getForecast(),
+  ])
 
   return (
     <aside className="space-y-6">
@@ -35,6 +39,7 @@ export default async function Sidebar({ weatherTemp, weatherDescription, weather
         temp={weatherTemp}
         description={weatherDescription}
         icon={weatherIcon}
+        forecast={forecast.map(d => ({ dayName: d.dayName, tempMax: d.tempMax, tempMin: d.tempMin, icon: d.icon }))}
       />
 
       {/* Ad Space */}
