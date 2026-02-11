@@ -15,7 +15,7 @@ const mockNews = [
     slug: 'ahmetli-belediyesi-yeni-park-projesi',
     summary: 'Ahmetli Belediyesi, ilçe merkezinde yeni bir park ve yeşil alan projesi başlattı. Proje kapsamında 5.000 metrekarelik alan düzenlenecek.',
     coverImage: null,
-    category: { name: 'Gündem', slug: 'gundem', color: '#2563eb' },
+    category: { name: 'Gündem', slug: 'gundem', color: '#0E4D3D' },
     publishedAt: new Date().toISOString(),
     viewCount: 245,
     featured: true,

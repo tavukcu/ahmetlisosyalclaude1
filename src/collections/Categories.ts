@@ -40,7 +40,7 @@ export const Categories: CollectionConfig = {
       type: 'text',
       label: 'Renk Kodu',
       admin: {
-        description: 'Kategori badge rengi (örn: #2563eb)',
+        description: 'Kategori badge rengi (örn: #0E4D3D)',
       },
     },
     {

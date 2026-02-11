@@ -52,5 +52,5 @@ export function generateSlug(text: string): string {
 }
 
 export function getCategoryColor(color?: string | null): string {
-  return color || '#2563eb'
+  return color || '#0E4D3D'
 }
