@@ -137,18 +137,18 @@ export default async function HomePage() {
       <BreakingNews items={breakingNewsItems} />
 
       {/* Header Ad Banner */}
-      <div className="max-w-7xl mx-auto px-4 mt-4">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 mt-6">
         <AdBanner position="header-banner" />
       </div>
 
       {/* Main Content */}
-      <div className="max-w-7xl mx-auto px-4 py-6">
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 py-8">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           {/* Main Content Area */}
           <div className="lg:col-span-2">
             {/* Hero / Featured News */}
             {featuredNews && (
-              <div className="mb-6">
+              <div className="mb-8">
                 <NewsCard
                   title={featuredNews.title}
                   slug={featuredNews.slug}
@@ -163,13 +163,14 @@ export default async function HomePage() {
             )}
 
             {/* News Grid */}
-            <div className="mb-4">
-              <h2 className="text-lg font-bold text-gray-800 border-b-2 border-primary-600 pb-2 mb-4">
+            <div className="section-header mb-6">
+              <h2 className="text-lg font-extrabold text-gray-800 flex items-center gap-2">
+                <span className="w-1 h-5 bg-accent-400 rounded-full" />
                 Son Haberler
               </h2>
             </div>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
               {gridNews.map((item, index) => (
                 <NewsCard
                   key={item.id}
@@ -186,7 +187,7 @@ export default async function HomePage() {
             </div>
 
             {/* In-article Ad */}
-            <div className="mt-6">
+            <div className="mt-8">
               <AdBanner position="in-article" />
             </div>
           </div>
@@ -203,7 +204,7 @@ export default async function HomePage() {
       </div>
 
       {/* Footer Ad Banner */}
-      <div className="max-w-7xl mx-auto px-4 mb-6">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 mb-8">
         <AdBanner position="footer-banner" />
       </div>
     </>

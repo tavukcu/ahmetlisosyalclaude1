@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react'
 import Link from 'next/link'
-import { FiArrowRight } from 'react-icons/fi'
+import { FiArrowRight, FiCheckCircle } from 'react-icons/fi'
 
 interface PollOption {
   text: string
@@ -32,11 +32,15 @@ export default function PollWidget({
 
   const [options, setOptions] = useState(defaultOptions)
   const [hasVoted, setHasVoted] = useState(false)
+  const [votedIndex, setVotedIndex] = useState<number | null>(null)
   const [totalVotes, setTotalVotes] = useState(initialTotal || defaultOptions.reduce((sum, o) => sum + o.votes, 0))
 
   useEffect(() => {
     const voted = localStorage.getItem(`poll_${pollId}`)
-    if (voted) setHasVoted(true)
+    if (voted) {
+      setHasVoted(true)
+      setVotedIndex(Number(voted))
+    }
   }, [pollId])
 
   const handleVote = async (index: number) => {
@@ -47,6 +51,7 @@ export default function PollWidget({
     setOptions(newOptions)
     setTotalVotes(prev => prev + 1)
     setHasVoted(true)
+    setVotedIndex(index)
     localStorage.setItem(`poll_${pollId}`, String(index))
 
     // Send vote to API
@@ -63,32 +68,39 @@ export default function PollWidget({
     }
   }
 
+  const maxVotes = Math.max(...options.map(o => o.votes))
+
   return (
     <div className="sidebar-widget">
-      <div className="flex items-center justify-between mb-3">
-        <h3 className="font-semibold text-gray-800">Anket</h3>
-        <Link href="/anketler" className="text-primary-600 text-xs hover:underline flex items-center gap-1">
+      <div className="flex items-center justify-between mb-4">
+        <h3 className="widget-header !mb-0 !pb-0 after:hidden">Anket</h3>
+        <Link href="/anketler" className="text-primary-600 text-xs font-semibold hover:text-primary-700 flex items-center gap-1 transition-colors">
           Tümü <FiArrowRight className="w-3 h-3" />
         </Link>
       </div>
 
-      <p className="text-sm font-medium text-gray-700 mb-3">{question}</p>
+      <p className="text-sm font-bold text-gray-700 mb-4 leading-snug">{question}</p>
 
       <div className="space-y-2">
         {options.map((option, index) => {
           const percentage = totalVotes > 0 ? Math.round((option.votes / totalVotes) * 100) : 0
+          const isMax = option.votes === maxVotes
+          const isVoted = votedIndex === index
 
           return (
             <div key={index}>
               {hasVoted ? (
-                <div className="relative">
-                  <div className="flex items-center justify-between text-sm mb-1">
-                    <span className="text-gray-700">{option.text}</span>
-                    <span className="font-semibold text-gray-800">%{percentage}</span>
+                <div className={`relative p-3 rounded-xl border transition-all ${isVoted ? 'border-primary-200 bg-primary-50/50' : 'border-gray-100 bg-gray-50/50'}`}>
+                  <div className="flex items-center justify-between text-sm mb-1.5 relative z-10">
+                    <span className={`font-medium flex items-center gap-1.5 ${isVoted ? 'text-primary-700' : 'text-gray-700'}`}>
+                      {isVoted && <FiCheckCircle className="w-3.5 h-3.5 text-primary-600" />}
+                      {option.text}
+                    </span>
+                    <span className={`font-extrabold ${isMax ? 'text-primary-700' : 'text-gray-500'}`}>%{percentage}</span>
                   </div>
-                  <div className="h-2 bg-gray-100 rounded-full overflow-hidden">
+                  <div className="h-1.5 bg-gray-200/60 rounded-full overflow-hidden">
                     <div
-                      className="h-full bg-primary-500 rounded-full transition-all duration-1000 ease-out"
+                      className={`h-full rounded-full transition-all duration-1000 ease-out ${isMax ? 'bg-gradient-to-r from-primary-500 to-primary-400' : 'bg-gray-300'}`}
                       style={{ width: `${percentage}%` }}
                     />
                   </div>
@@ -96,7 +108,7 @@ export default function PollWidget({
               ) : (
                 <button
                   onClick={() => handleVote(index)}
-                  className="w-full text-left px-3 py-2 text-sm border border-gray-200 rounded-lg hover:border-primary-400 hover:bg-primary-50 transition-colors"
+                  className="w-full text-left px-4 py-3 text-sm font-medium border border-gray-200 rounded-xl hover:border-primary-400 hover:bg-primary-50 hover:text-primary-700 transition-all duration-200 active:scale-[0.98]"
                 >
                   {option.text}
                 </button>
@@ -106,8 +118,8 @@ export default function PollWidget({
         })}
       </div>
 
-      <p className="text-xs text-gray-400 mt-3">
-        Toplam {totalVotes} oy
+      <p className="text-xs text-gray-400 mt-4 text-center font-medium">
+        Toplam {totalVotes.toLocaleString('tr-TR')} oy
       </p>
     </div>
   )

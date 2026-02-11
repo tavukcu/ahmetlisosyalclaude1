@@ -2,7 +2,7 @@
 
 import { useState } from 'react'
 import Link from 'next/link'
-import { FiMenu, FiX, FiSearch, FiSun, FiCloud } from 'react-icons/fi'
+import { FiMenu, FiX, FiSearch, FiSun, FiChevronRight } from 'react-icons/fi'
 
 interface Category {
   id: string
@@ -40,65 +40,66 @@ export default function Header({ categories = [], weatherTemp, weatherIcon, curr
 
   return (
     <>
-      {/* Currency Ticker */}
+      {/* Top Bar - Currency Ticker */}
       {currencyTicker && (
-        <div className="bg-primary-900 text-white text-xs py-1 overflow-hidden">
+        <div className="bg-primary-900 text-primary-100 text-xs py-1.5 overflow-hidden border-b border-primary-800">
           <div className="breaking-news-ticker">
-            <span className="ticker-content px-4">{currencyTicker}</span>
+            <span className="ticker-content px-4 tracking-wide">{currencyTicker}</span>
           </div>
         </div>
       )}
 
       {/* Main Header */}
-      <header className="bg-white shadow-sm sticky top-0 z-50">
-        <div className="max-w-7xl mx-auto px-4">
-          <div className="flex items-center justify-between h-16">
+      <header className="bg-white/95 backdrop-blur-lg sticky top-0 z-50 border-b border-gray-100">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6">
+          <div className="flex items-center justify-between h-16 md:h-[72px]">
             {/* Logo */}
-            <Link href="/" className="flex items-center gap-2">
-              <div className="w-10 h-10 bg-primary-600 rounded-lg flex items-center justify-center">
-                <span className="text-white font-bold text-lg">A</span>
+            <Link href="/" className="flex items-center gap-3 group">
+              <div className="relative w-10 h-10 bg-gradient-to-br from-primary-500 to-primary-700 rounded-xl flex items-center justify-center shadow-lg shadow-primary-600/20 group-hover:shadow-primary-600/40 transition-all duration-300 group-hover:scale-105">
+                <span className="text-white font-extrabold text-lg">A</span>
+                <div className="absolute -top-0.5 -right-0.5 w-3 h-3 bg-accent-400 rounded-full border-2 border-white" />
               </div>
               <div className="hidden sm:block">
-                <h1 className="text-xl font-bold text-primary-800 leading-tight">Ahmetli Sosyal</h1>
-                <p className="text-[10px] text-gray-500 -mt-0.5">Haber Portalı</p>
+                <h1 className="text-xl font-extrabold text-primary-800 leading-tight tracking-tight">Ahmetli Sosyal</h1>
+                <p className="text-[10px] text-gray-400 font-medium tracking-widest uppercase -mt-0.5">Haber Portalı</p>
               </div>
             </Link>
 
             {/* Desktop Navigation */}
-            <nav className="hidden lg:flex items-center gap-1">
+            <nav className="hidden lg:flex items-center">
               {defaultCategories.map((cat) => (
                 <Link
                   key={cat.id}
                   href={`/kategori/${cat.slug}`}
-                  className="px-3 py-2 text-sm font-medium text-gray-700 hover:text-primary-600 hover:bg-primary-50 rounded-md transition-colors"
+                  className="relative px-4 py-2 text-sm font-medium text-gray-600 hover:text-primary-700 transition-colors duration-200 group"
                 >
                   {cat.name}
+                  <span className="absolute bottom-0 left-1/2 -translate-x-1/2 w-0 h-0.5 bg-accent-400 rounded-full group-hover:w-6 transition-all duration-300" />
                 </Link>
               ))}
             </nav>
 
             {/* Right side */}
-            <div className="flex items-center gap-3">
+            <div className="flex items-center gap-2">
               {/* Mini Weather */}
               {weatherTemp !== null && weatherTemp !== undefined && (
                 <Link
                   href="/hava-durumu"
-                  className="hidden md:flex items-center gap-1.5 text-sm text-gray-600 hover:text-primary-600 transition-colors"
+                  className="hidden md:flex items-center gap-1.5 px-3 py-1.5 bg-primary-50 rounded-xl text-sm text-primary-700 hover:bg-primary-100 transition-all duration-200"
                 >
                   {weatherIcon ? (
                     <span className="text-lg">{weatherIcon}</span>
                   ) : (
-                    <FiSun className="text-yellow-500" />
+                    <FiSun className="text-accent-500" />
                   )}
-                  <span className="font-semibold">{weatherTemp}°C</span>
-                  <span className="text-xs text-gray-400">Ahmetli</span>
+                  <span className="font-bold">{weatherTemp}°</span>
                 </Link>
               )}
 
               {/* Search Button */}
               <button
                 onClick={() => setSearchOpen(true)}
-                className="p-2 text-gray-500 hover:text-primary-600 hover:bg-primary-50 rounded-lg transition-colors"
+                className="p-2.5 text-gray-400 hover:text-primary-600 hover:bg-primary-50 rounded-xl transition-all duration-200"
                 aria-label="Arama"
               >
                 <FiSearch className="w-5 h-5" />
@@ -107,7 +108,7 @@ export default function Header({ categories = [], weatherTemp, weatherIcon, curr
               {/* Mobile Menu Button */}
               <button
                 onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-                className="lg:hidden p-2 text-gray-500 hover:text-primary-600 hover:bg-primary-50 rounded-lg transition-colors"
+                className="lg:hidden p-2.5 text-gray-400 hover:text-primary-600 hover:bg-primary-50 rounded-xl transition-all duration-200"
                 aria-label="Menü"
               >
                 {mobileMenuOpen ? <FiX className="w-5 h-5" /> : <FiMenu className="w-5 h-5" />}
@@ -118,32 +119,37 @@ export default function Header({ categories = [], weatherTemp, weatherIcon, curr
 
         {/* Mobile Menu */}
         {mobileMenuOpen && (
-          <div className="lg:hidden border-t bg-white">
-            <nav className="max-w-7xl mx-auto px-4 py-3 space-y-1">
+          <div className="lg:hidden border-t border-gray-100 bg-white animate-slide-down">
+            <nav className="max-w-7xl mx-auto px-4 py-3 space-y-0.5">
               {defaultCategories.map((cat) => (
                 <Link
                   key={cat.id}
                   href={`/kategori/${cat.slug}`}
-                  className="block px-3 py-2 text-sm font-medium text-gray-700 hover:text-primary-600 hover:bg-primary-50 rounded-md"
+                  className="flex items-center justify-between px-4 py-3 text-sm font-medium text-gray-700 hover:text-primary-700 hover:bg-primary-50 rounded-xl transition-all duration-200"
                   onClick={() => setMobileMenuOpen(false)}
                 >
                   {cat.name}
+                  <FiChevronRight className="w-4 h-4 text-gray-300" />
                 </Link>
               ))}
-              <Link
-                href="/hava-durumu"
-                className="block px-3 py-2 text-sm font-medium text-gray-700 hover:text-primary-600 hover:bg-primary-50 rounded-md"
-                onClick={() => setMobileMenuOpen(false)}
-              >
-                Hava Durumu
-              </Link>
-              <Link
-                href="/anketler"
-                className="block px-3 py-2 text-sm font-medium text-gray-700 hover:text-primary-600 hover:bg-primary-50 rounded-md"
-                onClick={() => setMobileMenuOpen(false)}
-              >
-                Anketler
-              </Link>
+              <div className="pt-2 border-t border-gray-100 mt-2">
+                <Link
+                  href="/hava-durumu"
+                  className="flex items-center justify-between px-4 py-3 text-sm font-medium text-gray-700 hover:text-primary-700 hover:bg-primary-50 rounded-xl transition-all duration-200"
+                  onClick={() => setMobileMenuOpen(false)}
+                >
+                  Hava Durumu
+                  <FiChevronRight className="w-4 h-4 text-gray-300" />
+                </Link>
+                <Link
+                  href="/anketler"
+                  className="flex items-center justify-between px-4 py-3 text-sm font-medium text-gray-700 hover:text-primary-700 hover:bg-primary-50 rounded-xl transition-all duration-200"
+                  onClick={() => setMobileMenuOpen(false)}
+                >
+                  Anketler
+                  <FiChevronRight className="w-4 h-4 text-gray-300" />
+                </Link>
+              </div>
             </nav>
           </div>
         )}
@@ -151,32 +157,35 @@ export default function Header({ categories = [], weatherTemp, weatherIcon, curr
 
       {/* Search Modal */}
       {searchOpen && (
-        <div className="fixed inset-0 z-[60] bg-black/50 flex items-start justify-center pt-20">
-          <div className="bg-white rounded-xl shadow-2xl w-full max-w-xl mx-4 p-6">
-            <div className="flex items-center justify-between mb-4">
-              <h3 className="text-lg font-semibold text-gray-800">Haber Ara</h3>
+        <div className="fixed inset-0 z-[60] bg-black/40 backdrop-blur-sm flex items-start justify-center pt-24" onClick={() => setSearchOpen(false)}>
+          <div
+            className="bg-white rounded-2xl shadow-2xl w-full max-w-xl mx-4 p-6 animate-slide-down"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <div className="flex items-center justify-between mb-5">
+              <h3 className="text-lg font-bold text-gray-800">Haber Ara</h3>
               <button
                 onClick={() => setSearchOpen(false)}
-                className="p-1 text-gray-400 hover:text-gray-600"
+                className="p-2 text-gray-400 hover:text-gray-600 hover:bg-gray-100 rounded-xl transition-all"
               >
                 <FiX className="w-5 h-5" />
               </button>
             </div>
             <form onSubmit={handleSearch}>
               <div className="relative">
-                <FiSearch className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 w-5 h-5" />
+                <FiSearch className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-300 w-5 h-5" />
                 <input
                   type="text"
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
                   placeholder="Haber başlığı veya anahtar kelime..."
-                  className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 outline-none text-gray-800"
+                  className="w-full pl-12 pr-4 py-4 bg-gray-50 border-0 rounded-xl focus:ring-2 focus:ring-primary-500 focus:bg-white outline-none text-gray-800 text-base placeholder:text-gray-400 transition-all"
                   autoFocus
                 />
               </div>
               <button
                 type="submit"
-                className="mt-3 w-full btn-primary"
+                className="mt-4 w-full btn-primary py-3.5 text-base"
               >
                 Ara
               </button>

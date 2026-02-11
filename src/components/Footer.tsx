@@ -19,37 +19,38 @@ const quickLinks = [
 
 export default function Footer() {
   return (
-    <footer className="bg-gray-900 text-gray-300">
+    <footer className="bg-gradient-to-b from-gray-900 to-gray-950 text-gray-300">
       {/* Main Footer */}
-      <div className="max-w-7xl mx-auto px-4 py-12">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 py-14">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10">
           {/* About */}
-          <div>
-            <div className="flex items-center gap-2 mb-4">
-              <div className="w-10 h-10 bg-primary-600 rounded-lg flex items-center justify-center">
-                <span className="text-white font-bold text-lg">A</span>
+          <div className="lg:col-span-1">
+            <div className="flex items-center gap-3 mb-5">
+              <div className="relative w-11 h-11 bg-gradient-to-br from-primary-500 to-primary-700 rounded-xl flex items-center justify-center shadow-lg">
+                <span className="text-white font-extrabold text-lg">A</span>
+                <div className="absolute -top-0.5 -right-0.5 w-3 h-3 bg-accent-400 rounded-full border-2 border-gray-900" />
               </div>
               <div>
-                <h3 className="text-white font-bold text-lg">Ahmetli Sosyal</h3>
-                <p className="text-xs text-gray-400">Haber Portalı</p>
+                <h3 className="text-white font-extrabold text-lg tracking-tight">Ahmetli Sosyal</h3>
+                <p className="text-[10px] text-gray-500 font-medium tracking-widest uppercase">Haber Portalı</p>
               </div>
             </div>
-            <p className="text-sm text-gray-400 leading-relaxed">
+            <p className="text-sm text-gray-400 leading-relaxed mb-5">
               Ahmetli ve çevresinin en güncel haberleri, hava durumu bilgileri,
               tarımsal veriler ve yerel gelişmeler için güvenilir kaynağınız.
             </p>
             {/* Social Media */}
-            <div className="flex items-center gap-3 mt-4">
-              <a href="#" className="p-2 bg-gray-800 hover:bg-primary-600 rounded-lg transition-colors" aria-label="Facebook">
+            <div className="flex items-center gap-2">
+              <a href="#" className="p-2.5 bg-gray-800/80 hover:bg-primary-600 rounded-xl transition-all duration-200 hover:scale-105" aria-label="Facebook">
                 <FiFacebook className="w-4 h-4" />
               </a>
-              <a href="#" className="p-2 bg-gray-800 hover:bg-primary-600 rounded-lg transition-colors" aria-label="Twitter">
+              <a href="#" className="p-2.5 bg-gray-800/80 hover:bg-primary-600 rounded-xl transition-all duration-200 hover:scale-105" aria-label="Twitter">
                 <FiTwitter className="w-4 h-4" />
               </a>
-              <a href="#" className="p-2 bg-gray-800 hover:bg-primary-600 rounded-lg transition-colors" aria-label="Instagram">
+              <a href="#" className="p-2.5 bg-gray-800/80 hover:bg-primary-600 rounded-xl transition-all duration-200 hover:scale-105" aria-label="Instagram">
                 <FiInstagram className="w-4 h-4" />
               </a>
-              <a href="#" className="p-2 bg-gray-800 hover:bg-primary-600 rounded-lg transition-colors" aria-label="YouTube">
+              <a href="#" className="p-2.5 bg-gray-800/80 hover:bg-primary-600 rounded-xl transition-all duration-200 hover:scale-105" aria-label="YouTube">
                 <FiYoutube className="w-4 h-4" />
               </a>
             </div>
@@ -57,14 +58,15 @@ export default function Footer() {
 
           {/* Categories */}
           <div>
-            <h4 className="text-white font-semibold mb-4">Kategoriler</h4>
-            <ul className="space-y-2">
+            <h4 className="text-white font-bold mb-5 text-sm uppercase tracking-wider">Kategoriler</h4>
+            <ul className="space-y-2.5">
               {categories.map((cat) => (
                 <li key={cat.slug}>
                   <Link
                     href={`/kategori/${cat.slug}`}
-                    className="text-sm text-gray-400 hover:text-primary-400 transition-colors"
+                    className="text-sm text-gray-400 hover:text-accent-400 transition-colors duration-200 flex items-center gap-2"
                   >
+                    <span className="w-1 h-1 bg-gray-600 rounded-full" />
                     {cat.name}
                   </Link>
                 </li>
@@ -74,14 +76,15 @@ export default function Footer() {
 
           {/* Quick Links */}
           <div>
-            <h4 className="text-white font-semibold mb-4">Hızlı Bağlantılar</h4>
-            <ul className="space-y-2">
+            <h4 className="text-white font-bold mb-5 text-sm uppercase tracking-wider">Hızlı Bağlantılar</h4>
+            <ul className="space-y-2.5">
               {quickLinks.map((link) => (
                 <li key={link.href}>
                   <Link
                     href={link.href}
-                    className="text-sm text-gray-400 hover:text-primary-400 transition-colors"
+                    className="text-sm text-gray-400 hover:text-accent-400 transition-colors duration-200 flex items-center gap-2"
                   >
+                    <span className="w-1 h-1 bg-gray-600 rounded-full" />
                     {link.name}
                   </Link>
                 </li>
@@ -91,21 +94,27 @@ export default function Footer() {
 
           {/* Contact */}
           <div>
-            <h4 className="text-white font-semibold mb-4">İletişim</h4>
-            <ul className="space-y-3">
-              <li className="flex items-start gap-2 text-sm text-gray-400">
-                <FiMapPin className="w-4 h-4 mt-0.5 flex-shrink-0" />
-                <span>Ahmetli, Manisa, Türkiye</span>
+            <h4 className="text-white font-bold mb-5 text-sm uppercase tracking-wider">İletişim</h4>
+            <ul className="space-y-4">
+              <li className="flex items-start gap-3 text-sm text-gray-400">
+                <div className="p-2 bg-gray-800/80 rounded-lg mt-0.5">
+                  <FiMapPin className="w-3.5 h-3.5" />
+                </div>
+                <span className="leading-relaxed">Ahmetli, Manisa, Türkiye</span>
               </li>
-              <li className="flex items-center gap-2 text-sm text-gray-400">
-                <FiMail className="w-4 h-4 flex-shrink-0" />
-                <a href="mailto:info@ahmetlisosyal.com" className="hover:text-primary-400 transition-colors">
+              <li className="flex items-center gap-3 text-sm text-gray-400">
+                <div className="p-2 bg-gray-800/80 rounded-lg">
+                  <FiMail className="w-3.5 h-3.5" />
+                </div>
+                <a href="mailto:info@ahmetlisosyal.com" className="hover:text-accent-400 transition-colors">
                   info@ahmetlisosyal.com
                 </a>
               </li>
-              <li className="flex items-center gap-2 text-sm text-gray-400">
-                <FiPhone className="w-4 h-4 flex-shrink-0" />
-                <a href="tel:+902365000000" className="hover:text-primary-400 transition-colors">
+              <li className="flex items-center gap-3 text-sm text-gray-400">
+                <div className="p-2 bg-gray-800/80 rounded-lg">
+                  <FiPhone className="w-3.5 h-3.5" />
+                </div>
+                <a href="tel:+902365000000" className="hover:text-accent-400 transition-colors">
                   (0236) 500 00 00
                 </a>
               </li>
@@ -115,12 +124,12 @@ export default function Footer() {
       </div>
 
       {/* Bottom Bar */}
-      <div className="border-t border-gray-800">
-        <div className="max-w-7xl mx-auto px-4 py-4 flex flex-col sm:flex-row items-center justify-between gap-2">
+      <div className="border-t border-gray-800/60">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 py-5 flex flex-col sm:flex-row items-center justify-between gap-3">
           <p className="text-xs text-gray-500">
             © {new Date().getFullYear()} Ahmetli Sosyal. Tüm hakları saklıdır.
           </p>
-          <div className="flex items-center gap-4 text-xs text-gray-500">
+          <div className="flex items-center gap-5 text-xs text-gray-500">
             <Link href="#" className="hover:text-gray-300 transition-colors">Gizlilik Politikası</Link>
             <Link href="#" className="hover:text-gray-300 transition-colors">Kullanım Şartları</Link>
             <Link href="#" className="hover:text-gray-300 transition-colors">KVKK</Link>
