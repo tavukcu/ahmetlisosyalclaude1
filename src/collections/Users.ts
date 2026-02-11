@@ -7,14 +7,15 @@ export const Users: CollectionConfig = {
     plural: 'Kullanıcılar',
   },
   admin: {
-    useAsTitle: 'email',
-    defaultColumns: ['email', 'role', 'createdAt'],
+    useAsTitle: 'name',
+    defaultColumns: ['name', 'email', 'role', 'createdAt'],
+    description: 'Yönetim paneline erişim sağlayan kullanıcılar',
   },
   auth: true,
   access: {
-    read: () => true,
+    read: ({ req }) => !!req.user,
     create: ({ req }) => req.user?.role === 'admin',
-    update: ({ req }) => req.user?.role === 'admin',
+    update: ({ req }) => !!req.user,
     delete: ({ req }) => req.user?.role === 'admin',
   },
   fields: [
@@ -22,6 +23,7 @@ export const Users: CollectionConfig = {
       name: 'name',
       type: 'text',
       label: 'Ad Soyad',
+      required: true,
     },
     {
       name: 'role',
@@ -30,9 +32,12 @@ export const Users: CollectionConfig = {
       required: true,
       defaultValue: 'editor',
       options: [
-        { label: 'Admin', value: 'admin' },
-        { label: 'Editör', value: 'editor' },
+        { label: '👑 Admin', value: 'admin' },
+        { label: '✏️ Editör', value: 'editor' },
       ],
+      admin: {
+        description: 'Admin tüm işlemleri yapabilir. Editör sadece içerik ekleyip düzenleyebilir.',
+      },
     },
   ],
 }

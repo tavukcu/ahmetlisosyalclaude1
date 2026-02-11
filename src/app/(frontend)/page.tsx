@@ -4,7 +4,7 @@ import { getPayload } from '@/lib/payload'
 import NewsCard from '@/components/NewsCard'
 import BreakingNews from '@/components/BreakingNews'
 import Sidebar from '@/components/Sidebar'
-import AdBanner from '@/components/AdBanner'
+import AdBannerServer from '@/components/AdBannerServer'
 import { getCurrentWeather, getWeatherIcon } from '@/lib/weather'
 
 // Mock data for initial display when no news exists yet
@@ -138,7 +138,7 @@ export default async function HomePage() {
 
       {/* Header Ad Banner */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 mt-6">
-        <AdBanner position="header-banner" />
+        <AdBannerServer position="header-banner" />
       </div>
 
       {/* Main Content */}
@@ -188,7 +188,7 @@ export default async function HomePage() {
 
             {/* In-article Ad */}
             <div className="mt-8">
-              <AdBanner position="in-article" />
+              <AdBannerServer position="in-article" />
             </div>
           </div>
 
@@ -205,7 +205,7 @@ export default async function HomePage() {
 
       {/* Footer Ad Banner */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 mb-8">
-        <AdBanner position="footer-banner" />
+        <AdBannerServer position="footer-banner" />
       </div>
     </>
   )

@@ -4,7 +4,7 @@ import Link from 'next/link'
 import Image from 'next/image'
 import { getPayload } from '@/lib/payload'
 import ShareButtons from '@/components/ShareButtons'
-import AdBanner from '@/components/AdBanner'
+import AdBannerServer from '@/components/AdBannerServer'
 import NewsCard from '@/components/NewsCard'
 import { formatDateTime, getCategoryColor } from '@/lib/utils'
 import { FiClock, FiEye, FiUser, FiChevronRight } from 'react-icons/fi'
@@ -279,7 +279,7 @@ export default async function NewsDetailPage({ params }: PageProps) {
             </p>
 
             {/* Ad before content */}
-            <AdBanner position="in-article" />
+            <AdBannerServer position="in-article" />
 
             {/* Content */}
             <div className="prose prose-lg max-w-none mt-6">
@@ -334,8 +334,8 @@ export default async function NewsDetailPage({ params }: PageProps) {
           {/* Sidebar */}
           <div className="lg:col-span-1">
             <div className="sticky top-20 space-y-6">
-              <AdBanner position="sidebar" />
-              <AdBanner position="sidebar" />
+              <AdBannerServer position="sidebar" />
+              <AdBannerServer position="sidebar" />
             </div>
           </div>
         </div>

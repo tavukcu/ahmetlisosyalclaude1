@@ -8,10 +8,15 @@ export const News: CollectionConfig = {
   },
   admin: {
     useAsTitle: 'title',
-    defaultColumns: ['title', 'category', 'status', 'publishedAt', 'featured'],
+    defaultColumns: ['title', 'category', 'status', 'publishedAt', 'featured', 'viewCount'],
+    description: 'Yayınlanan haberler ve taslaklar',
+    listSearchableFields: ['title', 'summary'],
   },
   access: {
     read: () => true,
+    create: ({ req }) => !!req.user,
+    update: ({ req }) => !!req.user,
+    delete: ({ req }) => req.user?.role === 'admin',
   },
   fields: [
     {

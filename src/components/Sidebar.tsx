@@ -1,7 +1,8 @@
 import WeatherWidget from './WeatherWidget'
 import CurrencyWidget from './CurrencyWidget'
 import PollWidget from './PollWidget'
-import AdBanner from './AdBanner'
+import AdBannerServer from './AdBannerServer'
+import { getPayload } from '@/lib/payload'
 
 interface SidebarProps {
   weatherTemp?: number | null
@@ -9,7 +10,24 @@ interface SidebarProps {
   weatherIcon?: string | null
 }
 
-export default function Sidebar({ weatherTemp, weatherDescription, weatherIcon }: SidebarProps) {
+async function getActivePoll() {
+  try {
+    const payload = await getPayload()
+    const result = await payload.find({
+      collection: 'polls',
+      limit: 1,
+      sort: '-createdAt',
+      where: { active: { equals: true } },
+    })
+    return result.docs[0] as any ?? null
+  } catch {
+    return null
+  }
+}
+
+export default async function Sidebar({ weatherTemp, weatherDescription, weatherIcon }: SidebarProps) {
+  const activePoll = await getActivePoll()
+
   return (
     <aside className="space-y-6">
       {/* Weather Widget */}
@@ -20,16 +38,25 @@ export default function Sidebar({ weatherTemp, weatherDescription, weatherIcon }
       />
 
       {/* Ad Space */}
-      <AdBanner position="sidebar" />
+      <AdBannerServer position="sidebar" />
 
       {/* Currency Widget */}
       <CurrencyWidget />
 
       {/* Poll Widget */}
-      <PollWidget />
+      {activePoll ? (
+        <PollWidget
+          pollId={activePoll.id}
+          question={activePoll.question}
+          options={activePoll.options}
+          totalVotes={activePoll.totalVotes}
+        />
+      ) : (
+        <PollWidget />
+      )}
 
       {/* Ad Space 2 */}
-      <AdBanner position="sidebar" />
+      <AdBannerServer position="sidebar" />
     </aside>
   )
 }

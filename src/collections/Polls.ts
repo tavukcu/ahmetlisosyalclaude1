@@ -9,9 +9,13 @@ export const Polls: CollectionConfig = {
   admin: {
     useAsTitle: 'question',
     defaultColumns: ['question', 'active', 'totalVotes', 'endDate'],
+    description: 'Ziyaretçilerin oy kullanabileceği anketler',
   },
   access: {
     read: () => true,
+    create: ({ req }) => !!req.user,
+    update: ({ req }) => !!req.user,
+    delete: ({ req }) => req.user?.role === 'admin',
   },
   fields: [
     {

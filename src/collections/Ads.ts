@@ -8,10 +8,14 @@ export const Ads: CollectionConfig = {
   },
   admin: {
     useAsTitle: 'name',
-    defaultColumns: ['name', 'position', 'active', 'startDate', 'endDate', 'clicks'],
+    defaultColumns: ['name', 'position', 'active', 'startDate', 'endDate', 'clicks', 'impressions'],
+    description: 'Site genelinde gösterilen reklam bannerları',
   },
   access: {
     read: () => true,
+    create: ({ req }) => req.user?.role === 'admin',
+    update: ({ req }) => req.user?.role === 'admin',
+    delete: ({ req }) => req.user?.role === 'admin',
   },
   fields: [
     {
