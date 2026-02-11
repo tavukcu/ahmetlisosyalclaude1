@@ -27,7 +27,7 @@ export default buildConfig({
   collections: [Users, Media, Categories, News, Ads, Polls],
   globals: [Settings],
   editor: lexicalEditor({}),
-  secret: process.env.PAYLOAD_SECRET || 'default-secret-change-me',
+  secret: process.env.PAYLOAD_SECRET!,
   typescript: {
     outputFile: path.resolve(dirname, 'payload-types.ts'),
   },

@@ -5,6 +5,7 @@ export const Settings: GlobalConfig = {
   label: 'Site Ayarları',
   access: {
     read: () => true,
+    update: ({ req }) => req.user?.role === 'admin',
   },
   fields: [
     {
