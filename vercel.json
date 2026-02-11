@@ -1,0 +1,13 @@
+{
+  "framework": "nextjs",
+  "buildCommand": "pnpm build",
+  "installCommand": "pnpm install",
+  "functions": {
+    "src/app/(payload)/**/*.ts": {
+      "maxDuration": 60
+    },
+    "src/app/(payload)/**/*.tsx": {
+      "maxDuration": 60
+    }
+  }
+}

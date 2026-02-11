@@ -13,9 +13,10 @@
     "generate:importmap": "payload generate:importmap"
   },
   "dependencies": {
-    "@payloadcms/db-sqlite": "3.14.0",
+    "@payloadcms/db-vercel-postgres": "3.14.0",
     "@payloadcms/next": "3.14.0",
     "@payloadcms/richtext-lexical": "3.14.0",
+    "@payloadcms/storage-vercel-blob": "3.14.0",
     "@payloadcms/ui": "3.14.0",
     "@tailwindcss/typography": "^0.5.19",
     "framer-motion": "^11.15.0",
