@@ -1,4 +1,5 @@
 import path from 'path'
+import { createRequire } from 'module'
 import { fileURLToPath } from 'url'
 import { buildConfig } from 'payload'
 import { lexicalEditor } from '@payloadcms/richtext-lexical'
@@ -12,6 +13,7 @@ import { Ads } from './collections/Ads'
 import { Polls } from './collections/Polls'
 import { Settings } from './globals/Settings'
 
+const require = createRequire(import.meta.url)
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
 
@@ -19,7 +21,6 @@ const isVercel = !!process.env.POSTGRES_URL
 
 const getDbAdapter = () => {
   if (isVercel) {
-    // eslint-disable-next-line @typescript-eslint/no-require-imports
     const { vercelPostgresAdapter } = require('@payloadcms/db-vercel-postgres')
     return vercelPostgresAdapter({
       pool: {
@@ -27,7 +28,6 @@ const getDbAdapter = () => {
       },
     })
   }
-  // eslint-disable-next-line @typescript-eslint/no-require-imports
   const { sqliteAdapter } = require('@payloadcms/db-sqlite')
   return sqliteAdapter({
     client: {
@@ -39,7 +39,6 @@ const getDbAdapter = () => {
 const getPlugins = () => {
   const plugins: any[] = []
   if (isVercel && process.env.BLOB_READ_WRITE_TOKEN) {
-    // eslint-disable-next-line @typescript-eslint/no-require-imports
     const { vercelBlobStorage } = require('@payloadcms/storage-vercel-blob')
     plugins.push(
       vercelBlobStorage({
