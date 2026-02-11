@@ -2,6 +2,8 @@ import path from 'path'
 import { fileURLToPath } from 'url'
 import { buildConfig } from 'payload'
 import { lexicalEditor } from '@payloadcms/richtext-lexical'
+import { vercelPostgresAdapter } from '@payloadcms/db-vercel-postgres'
+import { sqliteAdapter } from '@payloadcms/db-sqlite'
 import sharp from 'sharp'
 
 import { Users } from './collections/Users'
@@ -19,15 +21,12 @@ const isVercel = !!process.env.POSTGRES_URL
 
 const getDbAdapter = () => {
   if (isVercel) {
-    const { vercelPostgresAdapter } = require('@payloadcms/db-vercel-postgres')
     return vercelPostgresAdapter({
       pool: {
         connectionString: process.env.POSTGRES_URL,
       },
-      push: true,
     })
   }
-  const { sqliteAdapter } = require('@payloadcms/db-sqlite')
   return sqliteAdapter({
     client: {
       url: process.env.DATABASE_URI || 'file:./database.db',
