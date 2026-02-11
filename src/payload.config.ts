@@ -1,5 +1,4 @@
 import path from 'path'
-import { createRequire } from 'module'
 import { fileURLToPath } from 'url'
 import { buildConfig } from 'payload'
 import { lexicalEditor } from '@payloadcms/richtext-lexical'
@@ -13,43 +12,28 @@ import { Ads } from './collections/Ads'
 import { Polls } from './collections/Polls'
 import { Settings } from './globals/Settings'
 
-const require = createRequire(import.meta.url)
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
 
 const isVercel = !!process.env.POSTGRES_URL
 
-const getDbAdapter = () => {
-  if (isVercel) {
-    const { vercelPostgresAdapter } = require('@payloadcms/db-vercel-postgres')
-    return vercelPostgresAdapter({
-      pool: {
-        connectionString: process.env.POSTGRES_URL,
-      },
+const dbAdapter = isVercel
+  ? (await import('@payloadcms/db-vercel-postgres')).vercelPostgresAdapter({
+      pool: { connectionString: process.env.POSTGRES_URL },
     })
-  }
-  const { sqliteAdapter } = require('@payloadcms/db-sqlite')
-  return sqliteAdapter({
-    client: {
-      url: process.env.DATABASE_URI || 'file:./database.db',
-    },
-  })
-}
+  : (await import('@payloadcms/db-sqlite')).sqliteAdapter({
+      client: { url: process.env.DATABASE_URI || 'file:./database.db' },
+    })
 
-const getPlugins = () => {
-  const plugins: any[] = []
-  if (isVercel && process.env.BLOB_READ_WRITE_TOKEN) {
-    const { vercelBlobStorage } = require('@payloadcms/storage-vercel-blob')
-    plugins.push(
-      vercelBlobStorage({
-        collections: {
-          media: true,
-        },
-        token: process.env.BLOB_READ_WRITE_TOKEN,
-      }),
-    )
-  }
-  return plugins
+const plugins: any[] = []
+if (isVercel && process.env.BLOB_READ_WRITE_TOKEN) {
+  const { vercelBlobStorage } = await import('@payloadcms/storage-vercel-blob')
+  plugins.push(
+    vercelBlobStorage({
+      collections: { media: true },
+      token: process.env.BLOB_READ_WRITE_TOKEN,
+    }),
+  )
 }
 
 export default buildConfig({
@@ -67,7 +51,7 @@ export default buildConfig({
   typescript: {
     outputFile: path.resolve(dirname, 'payload-types.ts'),
   },
-  db: getDbAdapter(),
+  db: dbAdapter,
   sharp,
-  plugins: getPlugins(),
+  plugins,
 })
