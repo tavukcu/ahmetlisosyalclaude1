@@ -1,118 +1,161 @@
-/* ======================================
-   Ahmetli Sosyal — Modern Admin Panel
-   ====================================== */
+/* ============================================================
+   Ahmetli Sosyal — Modern Admin Panel  v2
+   ============================================================ */
 
-/* ---------- CSS Değişkenleri (Açık Tema) ---------- */
+/* ---------- Özel CSS Değişkenleri ---------- */
 :root,
 [data-theme='light'] {
-  --custom-primary: #0e4d3d;
-  --custom-primary-hover: #1a7a5e;
-  --custom-primary-light: rgba(14, 77, 61, 0.08);
-  --custom-radius: 10px;
-  --custom-shadow: 0 1px 3px rgba(0, 0, 0, 0.08), 0 1px 2px rgba(0, 0, 0, 0.04);
-  --custom-shadow-md: 0 4px 12px rgba(0, 0, 0, 0.08), 0 2px 4px rgba(0, 0, 0, 0.04);
+  --as-primary:        #0e4d3d;
+  --as-primary-hover:  #1a7a5e;
+  --as-primary-light:  rgba(14, 77, 61, 0.08);
+  --as-primary-ring:   rgba(14, 77, 61, 0.18);
+  --as-radius:         10px;
+  --as-shadow-sm:      0 1px 3px rgba(0,0,0,0.07), 0 1px 2px rgba(0,0,0,0.04);
+  --as-shadow-md:      0 4px 16px rgba(0,0,0,0.08), 0 2px 6px rgba(0,0,0,0.04);
+  --as-shadow-lg:      0 12px 40px rgba(0,0,0,0.10), 0 4px 12px rgba(0,0,0,0.06);
 }
 
-/* ---------- Genel Düzen ---------- */
+[data-theme='dark'] {
+  --as-primary-light: rgba(26, 122, 94, 0.14);
+  --as-primary-ring:  rgba(52, 211, 153, 0.22);
+}
+
+/* ============================================================
+   GENEL ARKA PLAN
+   ============================================================ */
 .template-default {
-  background: var(--theme-elevation-50, #f9fafb);
+  background: var(--theme-elevation-50, #f8fafc) !important;
 }
 
-/* ---------- Üst Gezinti Çubuğu ---------- */
+/* ============================================================
+   NAVİGASYON ÇUBUĞU (üst bar)
+   ============================================================ */
 .nav {
   border-bottom: 1px solid var(--theme-elevation-150, #e5e7eb) !important;
-  backdrop-filter: blur(10px);
-  background: rgba(255, 255, 255, 0.95) !important;
-  box-shadow: 0 1px 0 rgba(0, 0, 0, 0.04) !important;
+  backdrop-filter: blur(12px) !important;
+  background: rgba(255, 255, 255, 0.96) !important;
+  box-shadow: 0 1px 0 rgba(0,0,0,0.04) !important;
+  position: sticky !important;
+  top: 0 !important;
+  z-index: 50 !important;
 }
 
 [data-theme='dark'] .nav {
-  background: rgba(17, 24, 39, 0.95) !important;
+  background: rgba(15, 23, 42, 0.96) !important;
+  border-bottom-color: rgba(255,255,255,0.07) !important;
 }
 
-/* ---------- Kenar Çubuğu (Nav) ---------- */
+/* ============================================================
+   KENAR ÇUBUĞU (sol panel)
+   ============================================================ */
 .nav__wrap {
-  padding: 12px 0;
+  padding: 8px 0 16px !important;
 }
 
 .nav__groups {
-  padding: 0 8px;
+  padding: 0 8px !important;
 }
 
-/* Menü öğeleri */
+/* Grup başlıkları */
+.nav__group-label {
+  font-size: 10px !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.8px !important;
+  text-transform: uppercase !important;
+  color: var(--theme-elevation-400, #9ca3af) !important;
+  padding: 12px 12px 4px !important;
+}
+
+/* Bağlantılar */
 .nav__link {
   border-radius: 8px !important;
-  margin: 2px 0 !important;
+  margin: 1px 0 !important;
   padding: 8px 12px !important;
   font-size: 13.5px !important;
   font-weight: 500 !important;
-  transition: all 0.15s ease !important;
-  color: var(--theme-elevation-600, #4b5563) !important;
+  transition: background 0.14s ease, color 0.14s ease !important;
+  color: var(--theme-elevation-700, #374151) !important;
+  display: flex !important;
+  align-items: center !important;
+  gap: 8px !important;
 }
 
 .nav__link:hover {
-  background: var(--custom-primary-light) !important;
-  color: var(--custom-primary) !important;
+  background: var(--as-primary-light) !important;
+  color: var(--as-primary) !important;
 }
 
 .nav__link.active,
-.nav__link[aria-current='page'] {
-  background: var(--custom-primary-light) !important;
-  color: var(--custom-primary) !important;
+.nav__link[aria-current='page'],
+.nav__link--active {
+  background: var(--as-primary-light) !important;
+  color: var(--as-primary) !important;
   font-weight: 600 !important;
+  box-shadow: inset 3px 0 0 var(--as-primary) !important;
 }
 
-/* ---------- İçerik Alanı ---------- */
-.collection-list__header,
-.document-header {
-  border-bottom: 1px solid var(--theme-elevation-150, #e5e7eb) !important;
-  padding-bottom: 16px !important;
-  margin-bottom: 24px !important;
+[data-theme='dark'] .nav__link {
+  color: var(--theme-elevation-600, #9ca3af) !important;
 }
 
-/* ---------- Butonlar ---------- */
+[data-theme='dark'] .nav__link:hover,
+[data-theme='dark'] .nav__link.active,
+[data-theme='dark'] .nav__link--active {
+  color: #34d399 !important;
+  background: rgba(52, 211, 153, 0.1) !important;
+  box-shadow: inset 3px 0 0 #34d399 !important;
+}
+
+/* ============================================================
+   BUTONLAR
+   ============================================================ */
 .btn {
   border-radius: 8px !important;
   font-weight: 600 !important;
   font-size: 13.5px !important;
-  transition: all 0.15s ease !important;
-  letter-spacing: -0.1px;
+  letter-spacing: -0.1px !important;
+  transition: background 0.15s ease, box-shadow 0.15s ease, transform 0.12s ease !important;
 }
 
+/* Primary */
 .btn--style-primary {
-  background: var(--custom-primary) !important;
-  border-color: var(--custom-primary) !important;
-  box-shadow: 0 1px 3px rgba(14, 77, 61, 0.25) !important;
+  background: var(--as-primary) !important;
+  border-color: var(--as-primary) !important;
+  box-shadow: 0 1px 3px rgba(14, 77, 61, 0.3) !important;
 }
 
 .btn--style-primary:hover {
-  background: var(--custom-primary-hover) !important;
-  border-color: var(--custom-primary-hover) !important;
-  box-shadow: 0 4px 10px rgba(14, 77, 61, 0.3) !important;
+  background: var(--as-primary-hover) !important;
+  border-color: var(--as-primary-hover) !important;
+  box-shadow: 0 4px 14px rgba(14, 77, 61, 0.35) !important;
   transform: translateY(-1px) !important;
 }
 
 .btn--style-primary:active {
   transform: translateY(0) !important;
+  box-shadow: 0 1px 3px rgba(14, 77, 61, 0.2) !important;
 }
 
+/* Secondary */
 .btn--style-secondary {
-  border-radius: 8px !important;
   border-color: var(--theme-elevation-200, #e5e7eb) !important;
   color: var(--theme-elevation-700, #374151) !important;
 }
 
 .btn--style-secondary:hover {
-  border-color: var(--custom-primary) !important;
-  color: var(--custom-primary) !important;
-  background: var(--custom-primary-light) !important;
+  border-color: var(--as-primary) !important;
+  color: var(--as-primary) !important;
+  background: var(--as-primary-light) !important;
 }
 
-/* ---------- Kartlar ve Tablolar ---------- */
-.table-wrap,
-.list-controls {
-  border-radius: var(--custom-radius) !important;
-  overflow: hidden;
+/* ============================================================
+   TABLO
+   ============================================================ */
+.table-wrap {
+  border-radius: var(--as-radius) !important;
+  border: 1px solid var(--theme-elevation-150, #e5e7eb) !important;
+  box-shadow: var(--as-shadow-sm) !important;
+  overflow: hidden !important;
 }
 
 .table {
@@ -120,32 +163,39 @@
   border-spacing: 0 !important;
 }
 
+.table thead tr {
+  background: var(--theme-elevation-50, #f8fafc) !important;
+}
+
 .table thead th {
-  background: var(--theme-elevation-50, #f9fafb) !important;
-  font-size: 12px !important;
-  font-weight: 600 !important;
+  font-size: 11.5px !important;
+  font-weight: 700 !important;
   text-transform: uppercase !important;
-  letter-spacing: 0.5px !important;
+  letter-spacing: 0.6px !important;
   color: var(--theme-elevation-500, #6b7280) !important;
-  padding: 12px 16px !important;
+  padding: 11px 16px !important;
   border-bottom: 1px solid var(--theme-elevation-150, #e5e7eb) !important;
+  white-space: nowrap !important;
 }
 
 .table tbody tr {
-  transition: background 0.12s ease !important;
+  transition: background 0.1s ease !important;
 }
 
 .table tbody tr:hover {
-  background: var(--custom-primary-light) !important;
+  background: var(--as-primary-light) !important;
 }
 
 .table tbody td {
-  padding: 14px 16px !important;
-  border-bottom: 1px solid var(--theme-elevation-100, #f3f4f6) !important;
-  font-size: 14px !important;
+  padding: 13px 16px !important;
+  border-bottom: 1px solid var(--theme-elevation-100, #f1f5f9) !important;
+  font-size: 13.5px !important;
+  vertical-align: middle !important;
 }
 
-/* ---------- Form Elemanları ---------- */
+/* ============================================================
+   FORM ELEMANLARI
+   ============================================================ */
 .field-type input[type='text'],
 .field-type input[type='email'],
 .field-type input[type='number'],
@@ -153,157 +203,221 @@
 .field-type input[type='password'],
 .field-type input[type='date'],
 .field-type input[type='datetime-local'],
-.field-type textarea,
-.rs__control {
+.field-type textarea {
   border-radius: 8px !important;
   border-color: var(--theme-elevation-200, #d1d5db) !important;
   font-size: 14px !important;
   transition: border-color 0.15s ease, box-shadow 0.15s ease !important;
+  line-height: 1.5 !important;
 }
 
 .field-type input:focus,
 .field-type textarea:focus {
-  border-color: var(--custom-primary) !important;
-  box-shadow: 0 0 0 3px rgba(14, 77, 61, 0.12) !important;
+  border-color: var(--as-primary) !important;
+  box-shadow: 0 0 0 3px var(--as-primary-ring) !important;
   outline: none !important;
 }
 
-/* ---------- Rozet / Durum Etiketleri ---------- */
-.pill {
-  border-radius: 6px !important;
-  font-size: 11.5px !important;
+/* Alan etiketleri */
+.field-label {
+  font-size: 13px !important;
   font-weight: 600 !important;
-  padding: 3px 8px !important;
-  letter-spacing: 0.3px;
+  color: var(--theme-elevation-800, #1f2937) !important;
+  margin-bottom: 5px !important;
 }
 
-/* ---------- Sayfalama ---------- */
-.pagination {
-  gap: 4px !important;
+/* Açıklama metni */
+.field-description {
+  font-size: 12px !important;
+  color: var(--theme-elevation-500, #6b7280) !important;
+  margin-top: 4px !important;
+  line-height: 1.5 !important;
 }
 
-.pagination__page-button {
-  border-radius: 7px !important;
-  font-weight: 600 !important;
-  transition: all 0.15s ease !important;
-}
-
-.pagination__page-button--is-active {
-  background: var(--custom-primary) !important;
-  border-color: var(--custom-primary) !important;
-  color: #fff !important;
-}
-
-/* ---------- Bildirimler / Toast ---------- */
-.toast {
-  border-radius: 10px !important;
-  box-shadow: var(--custom-shadow-md) !important;
-  font-size: 14px !important;
-  font-weight: 500 !important;
-}
-
-/* ---------- Modal / Drawer ---------- */
-.popup-content,
-.drawer__content {
-  border-radius: 12px !important;
-  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15) !important;
-}
-
-/* ---------- Dashboard Kartları ---------- */
-.dashboard-overview__card {
-  border-radius: var(--custom-radius) !important;
-  border-color: var(--theme-elevation-150, #e5e7eb) !important;
-  transition: all 0.2s ease !important;
-  box-shadow: var(--custom-shadow) !important;
-}
-
-.dashboard-overview__card:hover {
-  box-shadow: var(--custom-shadow-md) !important;
-  transform: translateY(-2px) !important;
-  border-color: var(--custom-primary) !important;
-}
-
-/* ---------- Bölüm Başlıkları ---------- */
-h1.render-fields__heading,
-.collection-list__header h1 {
-  font-size: 22px !important;
-  font-weight: 700 !important;
-  letter-spacing: -0.3px !important;
-}
-
-/* ---------- Select (react-select) ---------- */
+/* ============================================================
+   SELECT (React-Select)
+   ============================================================ */
 .rs__control {
+  border-radius: 8px !important;
+  border-color: var(--theme-elevation-200, #d1d5db) !important;
   min-height: 40px !important;
+  font-size: 14px !important;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease !important;
 }
 
 .rs__control--is-focused {
-  border-color: var(--custom-primary) !important;
-  box-shadow: 0 0 0 3px rgba(14, 77, 61, 0.12) !important;
+  border-color: var(--as-primary) !important;
+  box-shadow: 0 0 0 3px var(--as-primary-ring) !important;
 }
 
 .rs__option--is-selected {
-  background-color: var(--custom-primary) !important;
+  background-color: var(--as-primary) !important;
 }
 
-.rs__option--is-focused {
-  background-color: var(--custom-primary-light) !important;
-  color: var(--custom-primary) !important;
+.rs__option--is-focused:not(.rs__option--is-selected) {
+  background-color: var(--as-primary-light) !important;
+  color: var(--as-primary) !important;
 }
 
-/* ---------- Checkbox & Radio ---------- */
+/* ============================================================
+   CHECKBOX
+   ============================================================ */
 .checkbox-input__styled-input {
   border-radius: 5px !important;
-  border-color: var(--theme-elevation-300, #d1d5db) !important;
+  transition: background 0.15s ease, border-color 0.15s ease !important;
 }
 
 .checkbox-input__input:checked + .checkbox-input__styled-input {
-  background: var(--custom-primary) !important;
-  border-color: var(--custom-primary) !important;
+  background: var(--as-primary) !important;
+  border-color: var(--as-primary) !important;
 }
 
-/* ---------- Karanlık Tema Uyumu ---------- */
-[data-theme='dark'] {
-  --custom-primary-light: rgba(26, 122, 94, 0.15);
+/* ============================================================
+   ROZET / DURUM (Pill)
+   ============================================================ */
+.pill,
+.status-label,
+.cell--select {
+  border-radius: 6px !important;
+  font-size: 11.5px !important;
+  font-weight: 700 !important;
+  padding: 3px 9px !important;
+  letter-spacing: 0.2px !important;
+  display: inline-block !important;
 }
 
-[data-theme='dark'] .nav__link:hover,
-[data-theme='dark'] .nav__link.active,
-[data-theme='dark'] .nav__link[aria-current='page'] {
-  color: #34d399 !important;
+/* ============================================================
+   SAYFALAMA
+   ============================================================ */
+.pagination__page-button {
+  border-radius: 7px !important;
+  font-weight: 600 !important;
+  min-width: 32px !important;
+  height: 32px !important;
+  transition: background 0.15s ease, color 0.15s ease !important;
 }
 
-[data-theme='dark'] .btn--style-primary {
-  background: #1a7a5e !important;
-  border-color: #1a7a5e !important;
+.pagination__page-button--is-active {
+  background: var(--as-primary) !important;
+  border-color: var(--as-primary) !important;
+  color: #fff !important;
+  box-shadow: 0 2px 6px rgba(14, 77, 61, 0.3) !important;
 }
 
-[data-theme='dark'] .btn--style-primary:hover {
-  background: #22c55e !important;
-  border-color: #22c55e !important;
+/* ============================================================
+   GEÇİCİ BİLDİRİMLER (Toast)
+   ============================================================ */
+.toast-container .toast,
+.payload-toast {
+  border-radius: 10px !important;
+  box-shadow: var(--as-shadow-lg) !important;
+  font-size: 14px !important;
+  font-weight: 500 !important;
+  backdrop-filter: blur(8px) !important;
 }
 
-/* ---------- Giriş Sayfası ---------- */
-.login__wrapper,
+/* ============================================================
+   MODAL / POPUP / DRAWER
+   ============================================================ */
+.popup-content {
+  border-radius: 12px !important;
+  box-shadow: var(--as-shadow-lg) !important;
+}
+
+.drawer__content {
+  box-shadow: -4px 0 40px rgba(0,0,0,0.12) !important;
+}
+
+/* Modal overlay */
+.modal__blur-container {
+  backdrop-filter: blur(4px) !important;
+}
+
+/* ============================================================
+   DASHBOARD KOLEKSIYON KARTLARI
+   ============================================================ */
+.dashboard-overview__card,
+.collection-card {
+  border-radius: 14px !important;
+  border: 1px solid var(--theme-elevation-150, #e5e7eb) !important;
+  transition: box-shadow 0.2s ease, transform 0.2s ease, border-color 0.2s ease !important;
+  box-shadow: var(--as-shadow-sm) !important;
+  overflow: hidden !important;
+}
+
+.dashboard-overview__card:hover,
+.collection-card:hover {
+  box-shadow: var(--as-shadow-md) !important;
+  transform: translateY(-3px) !important;
+  border-color: var(--as-primary) !important;
+}
+
+/* ============================================================
+   GİRİŞ SAYFASI
+   ============================================================ */
 .template-minimal {
-  background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 50%, #f0f9ff 100%) !important;
+  background: linear-gradient(150deg, #f0fdf4 0%, #dcfce7 40%, #ecfdf5 70%, #f0f9ff 100%) !important;
+  min-height: 100vh !important;
 }
 
-[data-theme='dark'] .login__wrapper,
 [data-theme='dark'] .template-minimal {
-  background: linear-gradient(135deg, #0a1628 0%, #0d2a1f 50%, #0a1628 100%) !important;
+  background: linear-gradient(150deg, #020617 0%, #0a1f15 40%, #071c2c 100%) !important;
 }
 
-.login__form-wrap {
-  border-radius: 16px !important;
-  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.12), 0 4px 16px rgba(0, 0, 0, 0.06) !important;
-  border: 1px solid rgba(255, 255, 255, 0.8) !important;
-  backdrop-filter: blur(12px) !important;
+/* Login kutu */
+.login__form-wrap,
+.template-minimal > .wrap {
+  border-radius: 18px !important;
+  box-shadow:
+    0 0 0 1px rgba(14, 77, 61, 0.08),
+    0 24px 64px rgba(14, 77, 61, 0.12),
+    0 8px 24px rgba(0,0,0,0.06) !important;
+  border: 1px solid rgba(255,255,255,0.9) !important;
+  backdrop-filter: blur(20px) !important;
+  background: rgba(255, 255, 255, 0.92) !important;
 }
 
-/* ---------- Scroll Bar ---------- */
+[data-theme='dark'] .login__form-wrap,
+[data-theme='dark'] .template-minimal > .wrap {
+  background: rgba(15, 23, 42, 0.9) !important;
+  border: 1px solid rgba(255,255,255,0.06) !important;
+  box-shadow:
+    0 0 0 1px rgba(255,255,255,0.04),
+    0 24px 64px rgba(0,0,0,0.5) !important;
+}
+
+/* Giriş başlığı */
+.login h2,
+.login__form-title {
+  font-size: 20px !important;
+  font-weight: 700 !important;
+  color: var(--theme-text, #111827) !important;
+  letter-spacing: -0.3px !important;
+}
+
+/* ============================================================
+   BAŞLIKLAR
+   ============================================================ */
+h1,
+.render-title,
+.collection-list__header h1 {
+  letter-spacing: -0.3px !important;
+}
+
+.eyebrow {
+  font-size: 11px !important;
+  font-weight: 700 !important;
+  letter-spacing: 1px !important;
+  text-transform: uppercase !important;
+  color: var(--as-primary) !important;
+}
+
+/* ============================================================
+   CUSTOM SCROLLBAR
+   ============================================================ */
 ::-webkit-scrollbar {
-  width: 6px;
-  height: 6px;
+  width: 5px;
+  height: 5px;
 }
 
 ::-webkit-scrollbar-track {
@@ -311,22 +425,52 @@ h1.render-fields__heading,
 }
 
 ::-webkit-scrollbar-thumb {
-  background: var(--theme-elevation-200, #d1d5db);
+  background: var(--theme-elevation-200, #cbd5e1);
   border-radius: 99px;
+  transition: background 0.2s ease;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: var(--theme-elevation-400, #9ca3af);
+  background: var(--theme-elevation-400, #94a3b8);
 }
 
-/* ---------- Animasyon & Geçiş ---------- */
+/* ============================================================
+   ODAK (Focus) HALKASI
+   ============================================================ */
+*:focus-visible {
+  outline: 2px solid var(--as-primary) !important;
+  outline-offset: 2px !important;
+}
+
+/* ============================================================
+   ANİMASYON
+   ============================================================ */
 *,
 *::before,
 *::after {
-  transition-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
+  transition-timing-function: cubic-bezier(0.22, 1, 0.36, 1);
 }
 
-/* ---------- Küçük ekran düzenlemeleri ---------- */
+/* Fade-in efekti sayfaya girerken */
+.template-default main,
+.render-fields {
+  animation: as-fadein 0.22s ease both;
+}
+
+@keyframes as-fadein {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ============================================================
+   MOBİL UYUM
+   ============================================================ */
 @media (max-width: 768px) {
   .btn {
     font-size: 13px !important;
@@ -336,5 +480,10 @@ h1.render-fields__heading,
   .table tbody td,
   .table thead th {
     padding: 10px 12px !important;
+  }
+
+  .dashboard-overview__card:hover,
+  .collection-card:hover {
+    transform: none !important;
   }
 }
