@@ -1,1 +1,340 @@
-/* Custom Payload Admin styles */
+/* ======================================
+   Ahmetli Sosyal — Modern Admin Panel
+   ====================================== */
+
+/* ---------- CSS Değişkenleri (Açık Tema) ---------- */
+:root,
+[data-theme='light'] {
+  --custom-primary: #0e4d3d;
+  --custom-primary-hover: #1a7a5e;
+  --custom-primary-light: rgba(14, 77, 61, 0.08);
+  --custom-radius: 10px;
+  --custom-shadow: 0 1px 3px rgba(0, 0, 0, 0.08), 0 1px 2px rgba(0, 0, 0, 0.04);
+  --custom-shadow-md: 0 4px 12px rgba(0, 0, 0, 0.08), 0 2px 4px rgba(0, 0, 0, 0.04);
+}
+
+/* ---------- Genel Düzen ---------- */
+.template-default {
+  background: var(--theme-elevation-50, #f9fafb);
+}
+
+/* ---------- Üst Gezinti Çubuğu ---------- */
+.nav {
+  border-bottom: 1px solid var(--theme-elevation-150, #e5e7eb) !important;
+  backdrop-filter: blur(10px);
+  background: rgba(255, 255, 255, 0.95) !important;
+  box-shadow: 0 1px 0 rgba(0, 0, 0, 0.04) !important;
+}
+
+[data-theme='dark'] .nav {
+  background: rgba(17, 24, 39, 0.95) !important;
+}
+
+/* ---------- Kenar Çubuğu (Nav) ---------- */
+.nav__wrap {
+  padding: 12px 0;
+}
+
+.nav__groups {
+  padding: 0 8px;
+}
+
+/* Menü öğeleri */
+.nav__link {
+  border-radius: 8px !important;
+  margin: 2px 0 !important;
+  padding: 8px 12px !important;
+  font-size: 13.5px !important;
+  font-weight: 500 !important;
+  transition: all 0.15s ease !important;
+  color: var(--theme-elevation-600, #4b5563) !important;
+}
+
+.nav__link:hover {
+  background: var(--custom-primary-light) !important;
+  color: var(--custom-primary) !important;
+}
+
+.nav__link.active,
+.nav__link[aria-current='page'] {
+  background: var(--custom-primary-light) !important;
+  color: var(--custom-primary) !important;
+  font-weight: 600 !important;
+}
+
+/* ---------- İçerik Alanı ---------- */
+.collection-list__header,
+.document-header {
+  border-bottom: 1px solid var(--theme-elevation-150, #e5e7eb) !important;
+  padding-bottom: 16px !important;
+  margin-bottom: 24px !important;
+}
+
+/* ---------- Butonlar ---------- */
+.btn {
+  border-radius: 8px !important;
+  font-weight: 600 !important;
+  font-size: 13.5px !important;
+  transition: all 0.15s ease !important;
+  letter-spacing: -0.1px;
+}
+
+.btn--style-primary {
+  background: var(--custom-primary) !important;
+  border-color: var(--custom-primary) !important;
+  box-shadow: 0 1px 3px rgba(14, 77, 61, 0.25) !important;
+}
+
+.btn--style-primary:hover {
+  background: var(--custom-primary-hover) !important;
+  border-color: var(--custom-primary-hover) !important;
+  box-shadow: 0 4px 10px rgba(14, 77, 61, 0.3) !important;
+  transform: translateY(-1px) !important;
+}
+
+.btn--style-primary:active {
+  transform: translateY(0) !important;
+}
+
+.btn--style-secondary {
+  border-radius: 8px !important;
+  border-color: var(--theme-elevation-200, #e5e7eb) !important;
+  color: var(--theme-elevation-700, #374151) !important;
+}
+
+.btn--style-secondary:hover {
+  border-color: var(--custom-primary) !important;
+  color: var(--custom-primary) !important;
+  background: var(--custom-primary-light) !important;
+}
+
+/* ---------- Kartlar ve Tablolar ---------- */
+.table-wrap,
+.list-controls {
+  border-radius: var(--custom-radius) !important;
+  overflow: hidden;
+}
+
+.table {
+  border-collapse: separate !important;
+  border-spacing: 0 !important;
+}
+
+.table thead th {
+  background: var(--theme-elevation-50, #f9fafb) !important;
+  font-size: 12px !important;
+  font-weight: 600 !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.5px !important;
+  color: var(--theme-elevation-500, #6b7280) !important;
+  padding: 12px 16px !important;
+  border-bottom: 1px solid var(--theme-elevation-150, #e5e7eb) !important;
+}
+
+.table tbody tr {
+  transition: background 0.12s ease !important;
+}
+
+.table tbody tr:hover {
+  background: var(--custom-primary-light) !important;
+}
+
+.table tbody td {
+  padding: 14px 16px !important;
+  border-bottom: 1px solid var(--theme-elevation-100, #f3f4f6) !important;
+  font-size: 14px !important;
+}
+
+/* ---------- Form Elemanları ---------- */
+.field-type input[type='text'],
+.field-type input[type='email'],
+.field-type input[type='number'],
+.field-type input[type='url'],
+.field-type input[type='password'],
+.field-type input[type='date'],
+.field-type input[type='datetime-local'],
+.field-type textarea,
+.rs__control {
+  border-radius: 8px !important;
+  border-color: var(--theme-elevation-200, #d1d5db) !important;
+  font-size: 14px !important;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease !important;
+}
+
+.field-type input:focus,
+.field-type textarea:focus {
+  border-color: var(--custom-primary) !important;
+  box-shadow: 0 0 0 3px rgba(14, 77, 61, 0.12) !important;
+  outline: none !important;
+}
+
+/* ---------- Rozet / Durum Etiketleri ---------- */
+.pill {
+  border-radius: 6px !important;
+  font-size: 11.5px !important;
+  font-weight: 600 !important;
+  padding: 3px 8px !important;
+  letter-spacing: 0.3px;
+}
+
+/* ---------- Sayfalama ---------- */
+.pagination {
+  gap: 4px !important;
+}
+
+.pagination__page-button {
+  border-radius: 7px !important;
+  font-weight: 600 !important;
+  transition: all 0.15s ease !important;
+}
+
+.pagination__page-button--is-active {
+  background: var(--custom-primary) !important;
+  border-color: var(--custom-primary) !important;
+  color: #fff !important;
+}
+
+/* ---------- Bildirimler / Toast ---------- */
+.toast {
+  border-radius: 10px !important;
+  box-shadow: var(--custom-shadow-md) !important;
+  font-size: 14px !important;
+  font-weight: 500 !important;
+}
+
+/* ---------- Modal / Drawer ---------- */
+.popup-content,
+.drawer__content {
+  border-radius: 12px !important;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15) !important;
+}
+
+/* ---------- Dashboard Kartları ---------- */
+.dashboard-overview__card {
+  border-radius: var(--custom-radius) !important;
+  border-color: var(--theme-elevation-150, #e5e7eb) !important;
+  transition: all 0.2s ease !important;
+  box-shadow: var(--custom-shadow) !important;
+}
+
+.dashboard-overview__card:hover {
+  box-shadow: var(--custom-shadow-md) !important;
+  transform: translateY(-2px) !important;
+  border-color: var(--custom-primary) !important;
+}
+
+/* ---------- Bölüm Başlıkları ---------- */
+h1.render-fields__heading,
+.collection-list__header h1 {
+  font-size: 22px !important;
+  font-weight: 700 !important;
+  letter-spacing: -0.3px !important;
+}
+
+/* ---------- Select (react-select) ---------- */
+.rs__control {
+  min-height: 40px !important;
+}
+
+.rs__control--is-focused {
+  border-color: var(--custom-primary) !important;
+  box-shadow: 0 0 0 3px rgba(14, 77, 61, 0.12) !important;
+}
+
+.rs__option--is-selected {
+  background-color: var(--custom-primary) !important;
+}
+
+.rs__option--is-focused {
+  background-color: var(--custom-primary-light) !important;
+  color: var(--custom-primary) !important;
+}
+
+/* ---------- Checkbox & Radio ---------- */
+.checkbox-input__styled-input {
+  border-radius: 5px !important;
+  border-color: var(--theme-elevation-300, #d1d5db) !important;
+}
+
+.checkbox-input__input:checked + .checkbox-input__styled-input {
+  background: var(--custom-primary) !important;
+  border-color: var(--custom-primary) !important;
+}
+
+/* ---------- Karanlık Tema Uyumu ---------- */
+[data-theme='dark'] {
+  --custom-primary-light: rgba(26, 122, 94, 0.15);
+}
+
+[data-theme='dark'] .nav__link:hover,
+[data-theme='dark'] .nav__link.active,
+[data-theme='dark'] .nav__link[aria-current='page'] {
+  color: #34d399 !important;
+}
+
+[data-theme='dark'] .btn--style-primary {
+  background: #1a7a5e !important;
+  border-color: #1a7a5e !important;
+}
+
+[data-theme='dark'] .btn--style-primary:hover {
+  background: #22c55e !important;
+  border-color: #22c55e !important;
+}
+
+/* ---------- Giriş Sayfası ---------- */
+.login__wrapper,
+.template-minimal {
+  background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 50%, #f0f9ff 100%) !important;
+}
+
+[data-theme='dark'] .login__wrapper,
+[data-theme='dark'] .template-minimal {
+  background: linear-gradient(135deg, #0a1628 0%, #0d2a1f 50%, #0a1628 100%) !important;
+}
+
+.login__form-wrap {
+  border-radius: 16px !important;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.12), 0 4px 16px rgba(0, 0, 0, 0.06) !important;
+  border: 1px solid rgba(255, 255, 255, 0.8) !important;
+  backdrop-filter: blur(12px) !important;
+}
+
+/* ---------- Scroll Bar ---------- */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--theme-elevation-200, #d1d5db);
+  border-radius: 99px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--theme-elevation-400, #9ca3af);
+}
+
+/* ---------- Animasyon & Geçiş ---------- */
+*,
+*::before,
+*::after {
+  transition-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* ---------- Küçük ekran düzenlemeleri ---------- */
+@media (max-width: 768px) {
+  .btn {
+    font-size: 13px !important;
+    padding: 8px 14px !important;
+  }
+
+  .table tbody td,
+  .table thead th {
+    padding: 10px 12px !important;
+  }
+}

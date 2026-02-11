@@ -23,6 +23,13 @@ export default buildConfig({
     meta: {
       titleSuffix: ' — Ahmetli Sosyal',
     },
+    components: {
+      beforeDashboard: ['@/components/admin/BeforeDashboard'],
+      graphics: {
+        Logo: '@/components/admin/Logo',
+        Icon: '@/components/admin/Icon',
+      },
+    },
   },
   collections: [Users, Media, Categories, News, Ads, Polls],
   globals: [Settings],
