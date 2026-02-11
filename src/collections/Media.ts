@@ -31,20 +31,32 @@ export const Media: CollectionConfig = {
     adminThumbnail: 'thumbnail',
     mimeTypes: ['image/*'],
   },
+  admin: {
+    description: 'Haberlerde kullanılan görseller ve dosyalar. Yüklenen görseller otomatik olarak thumbnail, card ve hero boyutlarına dönüştürülür.',
+  },
   access: {
     read: () => true,
+    create: ({ req }) => !!req.user,
+    update: ({ req }) => !!req.user,
+    delete: ({ req }) => req.user?.role === 'admin',
   },
   fields: [
     {
       name: 'alt',
       type: 'text',
-      label: 'Alternatif Metin',
+      label: 'Alternatif Metin (SEO)',
       required: true,
+      admin: {
+        description: 'Görseli tanımlayan kısa metin. SEO ve erişilebilirlik için önemlidir.',
+      },
     },
     {
       name: 'caption',
       type: 'text',
-      label: 'Açıklama',
+      label: 'Açıklama / Kaynak',
+      admin: {
+        description: 'Görselin kaynağı veya fotoğrafçı bilgisi (isteğe bağlı)',
+      },
     },
   ],
 }

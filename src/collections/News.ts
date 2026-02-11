@@ -11,6 +11,12 @@ export const News: CollectionConfig = {
     defaultColumns: ['title', 'category', 'status', 'publishedAt', 'featured', 'viewCount'],
     description: 'Yayınlanan haberler ve taslaklar',
     listSearchableFields: ['title', 'summary'],
+    livePreview: {
+      url: ({ data }) =>
+        `${process.env.NEXT_PUBLIC_SITE_URL || ''}/haber/${data?.slug || ''}`,
+    },
+    preview: (data) =>
+      `${process.env.NEXT_PUBLIC_SITE_URL || ''}/haber/${(data as any)?.slug || ''}`,
   },
   access: {
     read: () => true,
@@ -19,6 +25,7 @@ export const News: CollectionConfig = {
     delete: ({ req }) => req.user?.role === 'admin',
   },
   fields: [
+    // ── Ana İçerik ──
     {
       name: 'title',
       type: 'text',
@@ -32,7 +39,7 @@ export const News: CollectionConfig = {
       required: true,
       unique: true,
       admin: {
-        description: 'URL\'de kullanılacak kısa ad (otomatik oluşturulur)',
+        description: 'URL\'de kullanılacak kısa ad (başlıktan otomatik oluşturulur)',
       },
       hooks: {
         beforeValidate: [
@@ -61,7 +68,7 @@ export const News: CollectionConfig = {
       required: true,
       maxLength: 300,
       admin: {
-        description: 'Haber kartlarında görünecek kısa özet (max 300 karakter)',
+        description: 'Haber kartlarında ve sosyal medya paylaşımlarında görünecek kısa özet (max 300 karakter)',
       },
     },
     {
@@ -76,19 +83,40 @@ export const News: CollectionConfig = {
       label: 'Kapak Görseli',
       relationTo: 'media',
       required: true,
+      admin: {
+        description: 'Önerilen boyut: 1200x630px (16:9 oran)',
+      },
     },
+
+    // ── Sınıflandırma ──
     {
-      name: 'category',
-      type: 'relationship',
-      label: 'Kategori',
-      relationTo: 'categories',
-      required: true,
-      hasMany: false,
+      type: 'row',
+      fields: [
+        {
+          name: 'category',
+          type: 'relationship',
+          label: 'Kategori',
+          relationTo: 'categories',
+          required: true,
+          hasMany: false,
+          admin: { width: '50%' },
+        },
+        {
+          name: 'author',
+          type: 'relationship',
+          label: 'Yazar',
+          relationTo: 'users',
+          admin: { width: '50%' },
+        },
+      ],
     },
     {
       name: 'tags',
       type: 'array',
       label: 'Etiketler',
+      admin: {
+        description: 'Arama ve ilgili haberler için kullanılır',
+      },
       fields: [
         {
           name: 'tag',
@@ -98,12 +126,8 @@ export const News: CollectionConfig = {
         },
       ],
     },
-    {
-      name: 'author',
-      type: 'relationship',
-      label: 'Yazar',
-      relationTo: 'users',
-    },
+
+    // ── Yayın Ayarları ──
     {
       name: 'status',
       type: 'select',
@@ -111,27 +135,12 @@ export const News: CollectionConfig = {
       required: true,
       defaultValue: 'draft',
       options: [
-        { label: 'Taslak', value: 'draft' },
-        { label: 'Yayında', value: 'published' },
-        { label: 'Arşivde', value: 'archived' },
+        { label: '📝 Taslak', value: 'draft' },
+        { label: '✅ Yayında', value: 'published' },
+        { label: '📦 Arşivde', value: 'archived' },
       ],
-    },
-    {
-      name: 'featured',
-      type: 'checkbox',
-      label: 'Öne Çıkan Haber',
-      defaultValue: false,
       admin: {
-        description: 'Ana sayfada büyük kart olarak gösterilsin mi?',
-      },
-    },
-    {
-      name: 'breakingNews',
-      type: 'checkbox',
-      label: 'Son Dakika',
-      defaultValue: false,
-      admin: {
-        description: 'Son dakika bandında gösterilsin mi?',
+        description: 'Sadece "Yayında" haberler sitede görünür',
       },
     },
     {
@@ -142,28 +151,60 @@ export const News: CollectionConfig = {
         date: {
           pickerAppearance: 'dayAndTime',
         },
+        description: 'Boş bırakılırsa ilk yayına alındığında otomatik doldurulur',
       },
+    },
+    {
+      type: 'row',
+      fields: [
+        {
+          name: 'featured',
+          type: 'checkbox',
+          label: '⭐ Öne Çıkan',
+          defaultValue: false,
+          admin: {
+            description: 'Ana sayfada büyük kart olarak gösterilsin mi?',
+            width: '50%',
+          },
+        },
+        {
+          name: 'breakingNews',
+          type: 'checkbox',
+          label: '🔴 Son Dakika',
+          defaultValue: false,
+          admin: {
+            description: 'Son dakika bandında gösterilsin mi?',
+            width: '50%',
+          },
+        },
+      ],
     },
     {
       name: 'viewCount',
       type: 'number',
-      label: 'Görüntülenme',
+      label: 'Görüntülenme Sayısı',
       defaultValue: 0,
       admin: {
         readOnly: true,
+        description: 'Haber detay sayfası ziyaret edildiğinde otomatik artar',
       },
     },
+
+    // ── SEO ──
     {
       name: 'seo',
       type: 'group',
       label: 'SEO Ayarları',
+      admin: {
+        description: 'Boş bırakılırsa başlık ve özet otomatik kullanılır',
+      },
       fields: [
         {
           name: 'metaTitle',
           type: 'text',
           label: 'Meta Başlık',
           admin: {
-            description: 'Boş bırakılırsa haber başlığı kullanılır',
+            description: 'Tarayıcı sekmesi ve arama sonuçları için başlık (önerilen: 50-60 karakter)',
           },
         },
         {
@@ -171,7 +212,7 @@ export const News: CollectionConfig = {
           type: 'textarea',
           label: 'Meta Açıklama',
           admin: {
-            description: 'Boş bırakılırsa haber özeti kullanılır',
+            description: 'Arama sonuçlarında gösterilen açıklama (önerilen: 150-160 karakter)',
           },
         },
       ],

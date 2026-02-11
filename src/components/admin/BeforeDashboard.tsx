@@ -367,6 +367,61 @@ export default async function BeforeDashboard() {
         </div>
       </div>
 
+      {/* ── Taslak Uyarısı ── */}
+      {stats.draft > 0 && (
+        <a
+          href="/admin/collections/news?where[status][equals]=draft"
+          style={{
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+            gap: '12px',
+            background: '#fffbeb',
+            border: '1px solid #fde68a',
+            borderRadius: '12px',
+            padding: '14px 18px',
+            marginBottom: '16px',
+            textDecoration: 'none',
+          }}
+        >
+          <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+            <div
+              style={{
+                width: '34px',
+                height: '34px',
+                borderRadius: '9px',
+                background: 'rgba(217,119,6,0.12)',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                flexShrink: 0,
+              }}
+            >
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+                <path
+                  d="M12 9v4m0 4h.01M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"
+                  stroke="#d97706"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
+              </svg>
+            </div>
+            <div>
+              <div style={{ fontSize: '13px', fontWeight: 700, color: '#92400e' }}>
+                {stats.draft} taslak haber yayına alınmayı bekliyor
+              </div>
+              <div style={{ fontSize: '11.5px', color: '#b45309', marginTop: '2px' }}>
+                Haberleri inceleyip durumunu "Yayında" olarak güncelleyin
+              </div>
+            </div>
+          </div>
+          <span style={{ fontSize: '12px', fontWeight: 600, color: '#d97706', whiteSpace: 'nowrap' }}>
+            İncele →
+          </span>
+        </a>
+      )}
+
       {/* ── İstatistik Kartları ── */}
       <div style={{ display: 'flex', flexWrap: 'wrap', gap: '12px', marginBottom: '20px' }}>
         <StatCard
