@@ -37,10 +37,22 @@ export const Categories: CollectionConfig = {
     },
     {
       name: 'color',
-      type: 'text',
-      label: 'Renk Kodu',
+      type: 'select',
+      label: 'Renk',
+      defaultValue: '#0E4D3D',
+      options: [
+        { label: '🟢 Orman Yeşili (Gündem)', value: '#0E4D3D' },
+        { label: '🟢 Açık Yeşil (Tarım)', value: '#16a34a' },
+        { label: '🔴 Kırmızı (Spor)', value: '#dc2626' },
+        { label: '🟣 Mor (Yaşam)', value: '#7c3aed' },
+        { label: '🟠 Turuncu (Kültür)', value: '#ea580c' },
+        { label: '🔵 Mavi (Ekonomi)', value: '#0891b2' },
+        { label: '🔵 Koyu Mavi (Eğitim)', value: '#2563eb' },
+        { label: '🩷 Pembe (Sağlık)', value: '#db2777' },
+        { label: '⚫ Koyu Gri (Diğer)', value: '#374151' },
+      ],
       admin: {
-        description: 'Kategori badge rengi (örn: #0E4D3D)',
+        description: 'Kategori badge rengi',
       },
     },
     {

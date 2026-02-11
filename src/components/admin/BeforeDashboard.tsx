@@ -5,7 +5,7 @@ import configPromise from '@payload-config'
 async function getStats() {
   try {
     const payload = await getPayload({ config: configPromise })
-    const [news, published, draft, categories, media, ads, polls, recentNews] = await Promise.all([
+    const [news, published, draft, categories, media, ads, polls, recentNews, topNews] = await Promise.all([
       payload.count({ collection: 'news' }),
       payload.count({ collection: 'news', where: { status: { equals: 'published' } } }),
       payload.count({ collection: 'news', where: { status: { equals: 'draft' } } }),
@@ -18,6 +18,13 @@ async function getStats() {
         limit: 5,
         sort: '-createdAt',
         select: { title: true, status: true, createdAt: true },
+      }),
+      payload.find({
+        collection: 'news',
+        limit: 5,
+        sort: '-viewCount',
+        where: { status: { equals: 'published' } },
+        select: { title: true, viewCount: true, publishedAt: true },
       }),
     ])
     return {
@@ -33,6 +40,12 @@ async function getStats() {
         title: string
         status: string
         createdAt: string
+      }>,
+      topNews: topNews.docs as Array<{
+        id: string
+        title: string
+        viewCount: number
+        publishedAt: string
       }>,
     }
   } catch {
@@ -585,6 +598,159 @@ export default async function BeforeDashboard() {
                   </div>
                 </div>
                 <StatusBadge status={item.status} />
+              </a>
+            ))}
+          </div>
+        </div>
+      )}
+
+      {/* ── En Çok Okunan Haberler ── */}
+      {stats.topNews.length > 0 && (
+        <div
+          style={{
+            background: 'var(--theme-elevation-0, #fff)',
+            border: '1px solid var(--theme-elevation-150, #e5e7eb)',
+            borderRadius: '14px',
+            overflow: 'hidden',
+            boxShadow: '0 1px 3px rgba(0,0,0,0.05)',
+            marginTop: '12px',
+          }}
+        >
+          <div
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'space-between',
+              padding: '16px 20px',
+              borderBottom: '1px solid var(--theme-elevation-100, #f3f4f6)',
+            }}
+          >
+            <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+              <div
+                style={{
+                  width: '28px',
+                  height: '28px',
+                  borderRadius: '7px',
+                  background: 'rgba(220, 38, 38, 0.1)',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                }}
+              >
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none">
+                  <path
+                    d="M17.657 18.657A8 8 0 016.343 7.343S7 9 9 10c0-2 .5-5 2.986-7C14 5 16.09 5.777 17.656 7.343A7.975 7.975 0 0120 13a7.975 7.975 0 01-2.343 5.657z"
+                    stroke="#dc2626"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
+                  <path
+                    d="M9.879 16.121A3 3 0 1012.015 11L11 14H9c0 .768.293 1.536.879 2.121z"
+                    stroke="#dc2626"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
+                </svg>
+              </div>
+              <span
+                style={{
+                  fontSize: '13.5px',
+                  fontWeight: 700,
+                  color: 'var(--theme-text, #111827)',
+                }}
+              >
+                En Çok Okunan Haberler
+              </span>
+            </div>
+          </div>
+
+          <div>
+            {stats.topNews.map((item, idx) => (
+              <a
+                key={item.id}
+                href={`/admin/collections/news/${item.id}`}
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'space-between',
+                  padding: '13px 20px',
+                  borderBottom:
+                    idx < stats.topNews.length - 1
+                      ? '1px solid var(--theme-elevation-100, #f3f4f6)'
+                      : 'none',
+                  textDecoration: 'none',
+                  gap: '12px',
+                  transition: 'background 0.12s ease',
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.background = 'var(--theme-elevation-50, #f9fafb)'
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.background = 'transparent'
+                }}
+              >
+                <div
+                  style={{
+                    width: '28px',
+                    height: '28px',
+                    borderRadius: '50%',
+                    background: idx === 0 ? 'rgba(220,38,38,0.1)' : idx === 1 ? 'rgba(217,119,6,0.1)' : 'var(--theme-elevation-100, #f3f4f6)',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    flexShrink: 0,
+                    fontSize: '11px',
+                    fontWeight: 700,
+                    color: idx === 0 ? '#dc2626' : idx === 1 ? '#d97706' : 'var(--theme-elevation-500, #6b7280)',
+                  }}
+                >
+                  {idx + 1}
+                </div>
+                <div style={{ flex: 1, minWidth: 0 }}>
+                  <div
+                    style={{
+                      fontSize: '13.5px',
+                      fontWeight: 600,
+                      color: 'var(--theme-text, #111827)',
+                      overflow: 'hidden',
+                      textOverflow: 'ellipsis',
+                      whiteSpace: 'nowrap',
+                    }}
+                  >
+                    {item.title}
+                  </div>
+                  <div
+                    style={{
+                      fontSize: '12px',
+                      color: 'var(--theme-elevation-400, #9ca3af)',
+                      marginTop: '2px',
+                    }}
+                  >
+                    {item.publishedAt ? formatDate(item.publishedAt) : ''}
+                  </div>
+                </div>
+                <span
+                  style={{
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    gap: '4px',
+                    padding: '2px 8px',
+                    borderRadius: '99px',
+                    fontSize: '11px',
+                    fontWeight: 600,
+                    background: 'rgba(14, 77, 61, 0.08)',
+                    color: '#0E4D3D',
+                    flexShrink: 0,
+                  }}
+                >
+                  <svg width="10" height="10" viewBox="0 0 24 24" fill="none">
+                    <path d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" stroke="currentColor" strokeWidth="2" />
+                    <path d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" stroke="currentColor" strokeWidth="2" />
+                  </svg>
+                  {item.viewCount ?? 0}
+                </span>
               </a>
             ))}
           </div>
